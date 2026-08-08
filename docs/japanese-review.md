@@ -373,4 +373,3 @@ Total: **310 phrases** (0 verified)
 - [ ] KY (can't read the room) — KY（空気読めない）。 — KY (Kuuki yomenai).
 - [ ] Nau (right now) — なう。 — Nau.
 - [ ] Tehepero (oops, my bad - cutesy) — てへぺろ。 — Tehepero.
-
