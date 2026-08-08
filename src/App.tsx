@@ -20,62 +20,6 @@ const EditPhraseModal = lazy(() =>
 
 type Tab = "browse" | "add" | "favorites"
 
-function CategoryNav({
-  selected,
-  onSelect,
-  hasMyPhrases,
-  layoutId = "category-pill",
-}: {
-  selected: string
-  onSelect: (id: string) => void
-  hasMyPhrases: boolean
-  layoutId?: string
-}) {
-  return (
-    <div className="flex gap-2 overflow-x-auto px-4 pt-2 pb-2 scrollbar-none md:flex-wrap md:overflow-visible md:justify-center md:px-0">
-      {hasMyPhrases && (
-        <button
-          onClick={() => onSelect(MY_PHRASES_ID)}
-          className={`relative shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-            selected === MY_PHRASES_ID
-              ? "text-brown-950"
-              : "text-amber-400 hover:text-amber-300"
-          }`}
-        >
-          {selected === MY_PHRASES_ID && (
-            <motion.span
-              layoutId={layoutId}
-              className="absolute inset-0 rounded-full bg-amber-400"
-              transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            />
-          )}
-          <span className="relative z-10">✨ My Phrases</span>
-        </button>
-      )}
-      {categories.map((cat) => (
-        <button
-          key={cat.id}
-          onClick={() => onSelect(cat.id)}
-          className={`relative shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-            selected === cat.id
-              ? "text-brown-950"
-              : "text-brown-300 hover:text-brown-100"
-          }`}
-        >
-          {selected === cat.id && (
-            <motion.span
-              layoutId={layoutId}
-              className="absolute inset-0 rounded-full bg-brown-400"
-              transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            />
-          )}
-          <span className="relative z-10">{cat.name}</span>
-        </button>
-      ))}
-    </div>
-  )
-}
-
 function FavoritesView({
   isFavorite,
   onToggle,
@@ -322,13 +266,34 @@ export default function App() {
         {/* Desktop Category Bar — shown on desktop browse tab */}
         {tab === "browse" && (
           <div className="hidden lg:block border-b border-brown-900/50 bg-brown-950/60">
-            <div className="max-w-3xl mx-auto">
-              <CategoryNav
-                selected={selectedCategory}
-                onSelect={setSelectedCategory}
-                hasMyPhrases={hasMyPhrases}
-                layoutId="category-pill-desktop"
-              />
+            <div className="max-w-3xl mx-auto px-4 py-3">
+              <button
+                onClick={() => setSheetOpen(true)}
+                className="w-full flex items-center justify-between rounded-xl bg-brown-900/70 border border-brown-800/50 px-4 py-2.5"
+              >
+                <span className="text-sm font-medium text-brown-100">
+                  {currentCategory.label}
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="text-xs text-brown-500">
+                    {currentCategory.count} phrases
+                  </span>
+                  <span
+                    className={`text-brown-500 transition-transform duration-200 ${sheetOpen ? "rotate-180" : ""}`}
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="M5 7.5L10 12.5L15 7.5" />
+                    </svg>
+                  </span>
+                </span>
+              </button>
             </div>
           </div>
         )}
