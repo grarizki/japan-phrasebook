@@ -83,12 +83,16 @@ function FavoritesView({
   userPhrases,
   onEdit,
   onDelete,
+  expandedId,
+  onToggleExpand,
 }: {
   isFavorite: (id: string) => boolean
   onToggle: (id: string) => void
   userPhrases: UserPhrase[]
   onEdit: (phrase: UserPhrase) => void
   onDelete: (id: string) => void
+  expandedId: string | null
+  onToggleExpand: (id: string) => void
 }) {
   const favConvs = conversations.filter((c) => isFavorite(c.id))
   const favUser = userPhrases.filter((p) => isFavorite(p.id))
@@ -116,6 +120,8 @@ function FavoritesView({
           pronunciation={p.pronunciation}
           isFavorite={isFavorite(p.id)}
           onToggleFavorite={() => onToggle(p.id)}
+          expanded={expandedId === p.id}
+          onToggle={() => onToggleExpand(p.id)}
           isUserPhrase
           onEdit={() => onEdit(p)}
           onDelete={() => onDelete(p.id)}
@@ -133,6 +139,8 @@ function FavoritesView({
             pronunciation={t.pronunciation}
             isFavorite={isFavorite(conv.id)}
             onToggleFavorite={() => onToggle(conv.id)}
+            expanded={expandedId === conv.id}
+            onToggle={() => onToggleExpand(conv.id)}
           />
         )
       })}
@@ -144,6 +152,7 @@ export default function App() {
   const [tab, setTab] = useState<Tab>("browse")
   const [selectedCategory, setSelectedCategory] = useState("cat1")
   const [editingPhrase, setEditingPhrase] = useState<UserPhrase | null>(null)
+  const [expandedId, setExpandedId] = useState<string | null>(null)
   const { isFavorite, toggle, loading: favLoading } = useFavorites()
   const {
     phrases: userPhrases,
@@ -287,6 +296,10 @@ export default function App() {
                     pronunciation={item.pronunciation}
                     isFavorite={isFavorite(item.id)}
                     onToggleFavorite={() => toggle(item.id)}
+                    expanded={expandedId === item.id}
+                    onToggle={() =>
+                      setExpandedId(expandedId === item.id ? null : item.id)
+                    }
                     isUserPhrase={item.type === "user"}
                     onEdit={
                       item.type === "user"
@@ -323,6 +336,10 @@ export default function App() {
                 userPhrases={userPhrases}
                 onEdit={setEditingPhrase}
                 onDelete={handleDelete}
+                expandedId={expandedId}
+                onToggleExpand={(id) =>
+                  setExpandedId(expandedId === id ? null : id)
+                }
               />
             )}
           </div>

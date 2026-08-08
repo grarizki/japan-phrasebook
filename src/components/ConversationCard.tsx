@@ -7,6 +7,8 @@ export function ConversationCard({
   pronunciation,
   isFavorite,
   onToggleFavorite,
+  expanded,
+  onToggle,
   isUserPhrase,
   onEdit,
   onDelete,
@@ -17,11 +19,12 @@ export function ConversationCard({
   pronunciation: string
   isFavorite: boolean
   onToggleFavorite: () => void
+  expanded: boolean
+  onToggle: () => void
   isUserPhrase?: boolean
   onEdit?: () => void
   onDelete?: () => void
 }) {
-  const [expanded, setExpanded] = useState(false)
   const [copied, setCopied] = useState(false)
 
   const handleCopy = useCallback(() => {
@@ -33,10 +36,7 @@ export function ConversationCard({
 
   return (
     <div className="overflow-hidden rounded-2xl bg-brown-900/80 backdrop-blur-sm border border-brown-800/50">
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="w-full p-4 text-left"
-      >
+      <button onClick={onToggle} className="w-full p-4 text-left">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
             <p className="text-brown-100 font-medium leading-snug">{content}</p>
