@@ -3,7 +3,7 @@
 Review each phrase: correct Japanese? natural? romaji matches?
 Tick the box once a **native speaker** confirms. Corrections go back into `src/data.ts`, then set `verified: true` + `verified_by` + `verified_at`.
 
-Total: **376 phrases** (1 verified)
+Total: **400 phrases** (1 verified)
 
 ---
 
@@ -442,4 +442,31 @@ Total: **376 phrases** (1 verified)
 - [ ] Can you draw me a map? — 地図を書いてもらえますか？ — Chizu o kaite moraemasu ka?
 - [ ] Which direction? — どちらの方向ですか？ — Dochira no houkou desu ka?
 - [ ] Please point it out here. — ここを指してもらえますか？ — Koko o sashite moraemasu ka?
+
+## Muslim Travelers (24)
+
+- [ ] I don't eat pork. — 豚肉を食べません。 — Butaniku o tabemasen.
+- [ ] I can't eat pork. — 豚肉は食べられません。 — Butaniku wa taberaremasen.
+- [ ] No pork, please. — 豚肉は抜きでお願いします。 — Butaniku wa nuki de onegaishimasu.
+- [ ] Please remove the pork. — 豚肉を抜いてください。 — Butaniku o nuite kudasai.
+- [ ] Does this contain pork? — 豚肉が入っていますか？ — Butaniku ga haitte imasu ka?
+- [ ] Is this made with pork? — これは豚肉で作られていますか？ — Kore wa butaniku de tsukurarete imasu ka?
+- [ ] I don't eat pork for religious reasons. — 宗教上の理由で豚肉を食べません。 — Shuukyoujou no riyuu de butaniku o tabemasen.
+- [ ] Does the soup contain pork? — スープに豚肉が入っていますか？ — Suupu ni butaniku ga haitte imasu ka?
+- [ ] Is the broth made with pork? — だしは豚肉ですか？ — Dashi wa butaniku desu ka?
+- [ ] No pork or lard, please. — 豚肉とラードは抜きでお願いします。 — Butaniku to raado wa nuki de onegaishimasu.
+- [ ] Is this halal? — これはハラールですか？ — Kore wa haraaru desu ka?
+- [ ] Is this meat halal? — この肉はハラールですか？ — Kono niku wa haraaru desu ka?
+- [ ] Do you have halal food? — ハラールの料理はありますか？ — Haraaru no ryouri wa arimasu ka?
+- [ ] Where is a halal restaurant? — ハラールレストランはどこですか？ — Haraaru resutoran wa doko desu ka?
+- [ ] Where can I buy halal meat? — ハラールの肉はどこで買えますか？ — Haraaru no niku wa doko de kaemasu ka?
+- [ ] Do you have meat-free food? — 肉なしの料理はありますか？ — Niku nashi no ryouri wa arimasu ka?
+- [ ] I'm Muslim. — 私はイスラム教徒です。 — Watashi wa Isuramu-kyouto desu.
+- [ ] Does this contain alcohol? — アルコールが入っていますか？ — Arukooru ga haitte imasu ka?
+- [ ] No alcohol, please. — アルコールは抜きでお願いします。 — Arukooru wa nuki de onegaishimasu.
+- [ ] Is this sake? — これはお酒ですか？ — Kore wa osake desu ka?
+- [ ] Where is the mosque? — モスクはどこですか？ — Mosuku wa doko desu ka?
+- [ ] Is there a mosque nearby? — この近くにモスクはありますか？ — Kono chikaku ni mosuku wa arimasu ka?
+- [ ] Where is the prayer room? — 礼拝室はどこですか？ — Reihaishitsu wa doko desu ka?
+- [ ] Is there a prayer room? — 礼拝室はありますか？ — Reihaishitsu wa arimasu ka?
 

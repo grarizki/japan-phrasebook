@@ -84,4 +84,33 @@ test.describe("Japan Phrasebook smoke", () => {
       "左に曲がってください",
     )
   })
+
+  test("Muslim Travelers category shows pork and halal phrases", async ({
+    page,
+  }) => {
+    await page.goto("/?cat=cat21")
+    const cards = page.locator("main .rounded-2xl")
+    await expect(cards).toHaveCount(24)
+    await expect(cards.first()).toContainText("豚肉を食べません")
+    await expect(
+      cards.filter({ hasText: "Is this halal?" }).first(),
+    ).toContainText("ハラール")
+    await expect(
+      cards.filter({ hasText: "Where is the mosque?" }).first(),
+    ).toContainText("モスク")
+  })
+
+  test("real-time clock shows Tokyo and Jakarta time", async ({ page }) => {
+    await page.goto("/")
+    await expect(page.getByText("東京").filter({ visible: true })).toBeVisible()
+    await expect(
+      page.getByText("ジャカルタ").filter({ visible: true }),
+    ).toBeVisible()
+    const time = await page
+      .locator(".tabular-nums")
+      .filter({ visible: true })
+      .first()
+      .textContent()
+    expect(time).toMatch(/^\d{2}:\d{2}:\d{2}$/)
+  })
 })

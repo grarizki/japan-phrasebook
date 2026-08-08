@@ -12,6 +12,7 @@ import { useFavorites } from "./hooks/useFavorites"
 import { useUserPhrases } from "./hooks/useUserPhrases"
 import { ConversationCard } from "./components/ConversationCard"
 import { CategorySheet } from "./components/CategorySheet"
+import { RealTimeClock } from "./components/RealTimeClock"
 import type { UserPhrase } from "./schema"
 
 const AddPhraseForm = lazy(() =>
@@ -254,17 +255,25 @@ export default function App() {
         </div>
       </nav>
 
+      {/* Desktop Clock — top-right, hidden on mobile */}
+      <div className="hidden lg:block fixed top-4 right-4 z-40">
+        <RealTimeClock />
+      </div>
+
       {/* Main area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile Header — hidden on desktop */}
         <header className="lg:hidden sticky top-0 z-50 bg-brown-950/90 backdrop-blur-md border-b border-brown-900/50">
-          <div className="px-4 pt-4 pb-2">
-            <h1 className="text-xl font-bold text-brown-100 tracking-tight">
-              日本語フレーズブック
-            </h1>
-            <p className="text-xs text-brown-500 mt-0.5">
-              Offline Japanese phrasebook
-            </p>
+          <div className="px-4 pt-4 pb-2 flex items-start justify-between gap-3">
+            <div>
+              <h1 className="text-xl font-bold text-brown-100 tracking-tight">
+                日本語フレーズブック
+              </h1>
+              <p className="text-xs text-brown-500 mt-0.5">
+                Offline Japanese phrasebook
+              </p>
+            </div>
+            <RealTimeClock />
           </div>
 
           {tab === "browse" && (
