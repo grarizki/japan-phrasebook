@@ -6,7 +6,9 @@ test.describe("Japan Phrasebook smoke", () => {
     await expect(page).toHaveTitle(/フレーズブック|Phrasebook/)
 
     // Default category trigger shows Convenience Store
-    const trigger = page.getByTestId("category-trigger").filter({ visible: true })
+    const trigger = page
+      .getByTestId("category-trigger")
+      .filter({ visible: true })
     await expect(trigger).toContainText("Convenience Store")
     await expect(trigger).toContainText("9 phrases")
   })
@@ -30,12 +32,16 @@ test.describe("Japan Phrasebook smoke", () => {
     const cards = page.locator("main .rounded-2xl")
     await expect(cards).toHaveCount(45)
     await expect(cards.first()).toContainText("私は学生です")
-    await expect(page.getByTestId("category-trigger").filter({ visible: true })).toContainText("JLPT N5")
+    await expect(
+      page.getByTestId("category-trigger").filter({ visible: true }),
+    ).toContainText("JLPT N5")
   })
 
   test("URL category param restores category on load", async ({ page }) => {
     await page.goto("/?cat=cat18")
-    await expect(page.getByTestId("category-trigger").filter({ visible: true })).toContainText("JLPT N3")
+    await expect(
+      page.getByTestId("category-trigger").filter({ visible: true }),
+    ).toContainText("JLPT N3")
     await expect(page.locator("main .rounded-2xl")).toHaveCount(40)
   })
 
@@ -61,6 +67,21 @@ test.describe("Japan Phrasebook smoke", () => {
     )
     await expect(page.locator("main .rounded-2xl").nth(1)).not.toContainText(
       "✓ 確認済み",
+    )
+  })
+
+  test("Counting, Time & Directions shows money and directions", async ({
+    page,
+  }) => {
+    await page.goto("/?cat=cat20")
+    const cards = page.locator("main .rounded-2xl")
+    await expect(cards).toHaveCount(64)
+    await expect(cards.first()).toContainText("いち")
+    await expect(cards.filter({ hasText: "100 yen" }).first()).toContainText(
+      "百円",
+    )
+    await expect(cards.filter({ hasText: "Turn left" }).first()).toContainText(
+      "左に曲がってください",
     )
   })
 })

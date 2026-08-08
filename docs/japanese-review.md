@@ -3,7 +3,7 @@
 Review each phrase: correct Japanese? natural? romaji matches?
 Tick the box once a **native speaker** confirms. Corrections go back into `src/data.ts`, then set `verified: true` + `verified_by` + `verified_at`.
 
-Total: **312 phrases** (1 verified)
+Total: **376 phrases** (1 verified)
 
 ---
 
@@ -375,4 +375,71 @@ Total: **312 phrases** (1 verified)
 - [ ] KY (can't read the room) — KY（空気読めない）。 — KY (Kuuki yomenai).
 - [ ] Nau (right now) — なう。 — Nau.
 - [ ] Tehepero (oops, my bad - cutesy) — てへぺろ。 — Tehepero.
+
+## Counting, Time & Directions (64)
+
+- [ ] One — いち — ichi
+- [ ] Two — に — ni
+- [ ] Three — さん — san
+- [ ] Four — よん — yon
+- [ ] Five — ご — go
+- [ ] Six — ろく — roku
+- [ ] Seven — なな — nana
+- [ ] Eight — はち — hachi
+- [ ] Nine — きゅう — kyuu
+- [ ] Ten — じゅう — juu
+- [ ] One (thing) — ひとつ — hitotsu
+- [ ] Two (things) — ふたつ — futatsu
+- [ ] Three (things) — みっつ — mittsu
+- [ ] Four (things) — よっつ — yottsu
+- [ ] Five (things) — いつつ — itsutsu
+- [ ] Six (things) — むっつ — muttsu
+- [ ] Seven (things) — ななつ — nanatsu
+- [ ] Eight (things) — やっつ — yattsu
+- [ ] Nine (things) — ここのつ — kokonotsu
+- [ ] Ten (things) — とお — too
+- [ ] 1 yen — 一円 — ichi-en
+- [ ] 5 yen — 五円 — go-en
+- [ ] 10 yen — 十円 — juu-en
+- [ ] 50 yen — 五十円 — gojuu-en
+- [ ] 100 yen — 百円 — hyaku-en
+- [ ] 500 yen — 五百円 — gohyaku-en
+- [ ] 1,000 yen — 千円 — sen-en
+- [ ] 5,000 yen — 五千円 — gosen-en
+- [ ] 10,000 yen — 一万円 — ichiman-en
+- [ ] Hundred — 百 — hyaku
+- [ ] Thousand — 千 — sen
+- [ ] Ten thousand — 万 — man
+- [ ] Three of these, please. — これを三つください。 — Kore o mittsu kudasai.
+- [ ] How many? — いくつですか？ — Ikutsu desu ka?
+- [ ] How much is it? — いくらですか？ — Ikura desu ka?
+- [ ] Can you break this bill? — このお札を崩してもらえますか？ — Kono osatsu o kuzushite moraemasu ka?
+- [ ] That's too expensive. — 高すぎます。 — Takasugimasu.
+- [ ] Can you make it cheaper? — 安くしてもらえますか？ — Yasuku shite moraemasu ka?
+- [ ] My change, please. — お釣りをお願いします。 — Otsuri o onegaishimasu.
+- [ ] I'd like to exchange money. — 両替したいです。 — Ryougae shitai desu.
+- [ ] It's 3 o'clock. — 三時です。 — San-ji desu.
+- [ ] It's 3:30. — 三時半です。 — San-ji han desu.
+- [ ] It's 10:15. — 十時十五分です。 — Juu-ji juugo-fun desu.
+- [ ] At what time? — 何時に？ — Nan-ji ni?
+- [ ] In ten minutes. — 十分後です。 — Juppun-go desu.
+- [ ] About one hour. — 一時間ぐらいです。 — Ichi-jikan gurai desu.
+- [ ] I'll be back by 5. — 五時までに戻ります。 — Go-ji made ni modorimasu.
+- [ ] For how long? — どのぐらいですか？ — Dono gurai desu ka?
+- [ ] Go straight. — まっすぐ行ってください。 — Massugu itte kudasai.
+- [ ] Turn left. — 左に曲がってください。 — Hidari ni magatte kudasai.
+- [ ] Turn right. — 右に曲がってください。 — Migi ni magatte kudasai.
+- [ ] It's on the left. — 左側にあります。 — Hidarigawa ni arimasu.
+- [ ] It's on the right. — 右側にあります。 — Migigawa ni arimasu.
+- [ ] It's next to the station. — 駅の隣です。 — Eki no tonari desu.
+- [ ] It's in front of the hotel. — ホテルの前にあります。 — Hoteru no mae ni arimasu.
+- [ ] It's behind the building. — ビルの後ろにあります。 — Biru no ushiro ni arimasu.
+- [ ] Is it near? — 近いですか？ — Chikai desu ka?
+- [ ] Is it far? — 遠いですか？ — Tooi desu ka?
+- [ ] Is it this way? — こっちですか？ — Kocchi desu ka?
+- [ ] Is it that way? — あっちですか？ — Acchi desu ka?
+- [ ] How many minutes on foot? — 歩いて何分ですか？ — Aruite nan-pun desu ka?
+- [ ] Can you draw me a map? — 地図を書いてもらえますか？ — Chizu o kaite moraemasu ka?
+- [ ] Which direction? — どちらの方向ですか？ — Dochira no houkou desu ka?
+- [ ] Please point it out here. — ここを指してもらえますか？ — Koko o sashite moraemasu ka?
 
