@@ -3,7 +3,7 @@
 Review each phrase: correct Japanese? natural? romaji matches?
 Tick the box once a **native speaker** confirms. Corrections go back into `src/data.ts`, then set `verified: true` + `verified_by` + `verified_at`.
 
-Total: **310 phrases** (0 verified)
+Total: **310 phrases** (1 verified)
 
 ---
 
@@ -189,7 +189,7 @@ Total: **310 phrases** (0 verified)
 
 ## JLPT N5 (45)
 
-- [ ] I am a student. — 私は学生です。 — Watashi wa gakusei desu.
+- [x] I am a student. — 私は学生です。 — Watashi wa gakusei desu.
 - [ ] This is a book. — これは本です。 — Kore wa hon desu.
 - [ ] This is not a pen. — これはペンではありません。 — Kore wa pen dewa arimasen.
 - [ ] What is this? — これは何ですか？ — Kore wa nan desu ka?
@@ -373,3 +373,4 @@ Total: **310 phrases** (0 verified)
 - [ ] KY (can't read the room) — KY（空気読めない）。 — KY (Kuuki yomenai).
 - [ ] Nau (right now) — なう。 — Nau.
 - [ ] Tehepero (oops, my bad - cutesy) — てへぺろ。 — Tehepero.
+
