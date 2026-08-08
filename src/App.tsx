@@ -1,4 +1,11 @@
-import { useState, useMemo, useCallback, Suspense, lazy } from "react"
+import {
+  useState,
+  useMemo,
+  useCallback,
+  useEffect,
+  Suspense,
+  lazy,
+} from "react"
 import { motion } from "framer-motion"
 import { MY_PHRASES_ID, categories, conversations, translations } from "./data"
 import { useFavorites } from "./hooks/useFavorites"
@@ -98,6 +105,36 @@ export default function App() {
   const [editingPhrase, setEditingPhrase] = useState<UserPhrase | null>(null)
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [sheetOpen, setSheetOpen] = useState(false)
+
+  // Read category + tab from URL on mount (persists across refresh)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const cat = params.get("cat")
+    const tabParam = params.get("tab")
+    if (cat) setSelectedCategory(cat)
+    if (
+      tabParam === "browse" ||
+      tabParam === "add" ||
+      tabParam === "favorites"
+    ) {
+      setTab(tabParam)
+    }
+  }, [])
+
+  // Write category + tab to URL (replaceState — no history spam)
+  useEffect(() => {
+    const params = new URLSearchParams()
+    if (selectedCategory !== "cat1") params.set("cat", selectedCategory)
+    if (tab !== "browse") params.set("tab", tab)
+    const qs = params.toString()
+    const url = qs
+      ? `${window.location.pathname}?${qs}`
+      : window.location.pathname
+    if (window.location.search !== (qs ? `?${qs}` : "")) {
+      window.history.replaceState(null, "", url)
+    }
+  }, [selectedCategory, tab])
+
   const { isFavorite, toggle, loading: favLoading } = useFavorites()
   const {
     phrases: userPhrases,
