@@ -140,6 +140,7 @@ function FavoritesView({
             onToggleFavorite={() => onToggle(conv.id)}
             expanded={expandedId === conv.id}
             onToggle={() => onToggleExpand(conv.id)}
+            verified={t.verified}
           />
         )
       })}
@@ -206,6 +207,7 @@ export default function App() {
         context: p.context,
         translation: p.translation,
         pronunciation: p.pronunciation,
+        verified: false,
         phrase: p,
       }))
     }
@@ -221,6 +223,7 @@ export default function App() {
           context: c.context,
           translation: t?.translation ?? "",
           pronunciation: t?.pronunciation ?? "",
+          verified: t?.verified,
         }
       })
 
@@ -363,6 +366,7 @@ export default function App() {
                         ? () => handleDelete(item.id)
                         : undefined
                     }
+                    verified={item.verified}
                   />
                 ))}
               </div>
