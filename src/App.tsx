@@ -270,6 +270,7 @@ export default function App() {
           {tab === "browse" && (
             <div className="px-4 pb-3">
               <button
+                data-testid="category-trigger"
                 onClick={() => setSheetOpen(true)}
                 className="w-full flex items-center justify-between rounded-xl bg-brown-900/70 border border-brown-800/50 px-4 py-2.5"
               >
@@ -305,6 +306,7 @@ export default function App() {
           <div className="hidden lg:block border-b border-brown-900/50 bg-brown-950/60">
             <div className="max-w-3xl mx-auto px-4 py-3">
               <button
+                data-testid="category-trigger"
                 onClick={() => setSheetOpen(true)}
                 className="w-full flex items-center justify-between rounded-xl bg-brown-900/70 border border-brown-800/50 px-4 py-2.5"
               >
