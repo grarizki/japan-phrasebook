@@ -2,6 +2,7 @@ export interface Category {
   id: string
   name: string
   description: string
+  group: string
 }
 
 export interface Conversation {

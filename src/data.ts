@@ -1,81 +1,108 @@
 import type { Category, Conversation, Translation } from "./schema"
 
+export const MY_PHRASES_ID = "my-phrases"
+
+export const CATEGORY_GROUPS = [
+  { id: "food", label: "🍜 Food & Drink" },
+  { id: "shopping", label: "🛍️ Shopping" },
+  { id: "travel", label: "🚆 Travel" },
+  { id: "conversation", label: "💬 Conversation" },
+  { id: "safety", label: "🆘 Emergencies" },
+  { id: "basics", label: "📖 Basics" },
+  { id: "work", label: "💼 Work" },
+] as const
+
 export const categories: Category[] = [
   {
     id: "cat1",
     name: "Convenience Store",
     description: "Common phrases used in convenience stores.",
+    group: "shopping",
   },
   {
     id: "cat2",
     name: "Restaurant",
     description: "Common phrases used in restaurants.",
+    group: "food",
   },
   {
     id: "cat3",
     name: "Shop",
     description: "Common phrases used in shops.",
+    group: "shopping",
   },
   {
     id: "cat4",
     name: "Transportation",
     description:
       "Common phrases used at train stations, in taxis, and at bus stops.",
+    group: "travel",
   },
   {
     id: "cat5",
     name: "Hotel",
     description: "Common phrases used at hotels.",
+    group: "travel",
   },
   {
     id: "cat6",
     name: "Airport",
     description: "Common phrases used at airports.",
+    group: "travel",
   },
   {
     id: "cat7",
     name: "Sightseeing",
     description: "Common phrases used while sightseeing.",
+    group: "travel",
   },
   {
     id: "cat8",
     name: "Everyday Conversation",
     description: "Common phrases used in everyday conversation.",
+    group: "conversation",
   },
   {
     id: "cat9",
     name: "Emergencies",
     description: "Common phrases used during emergencies.",
+    group: "safety",
   },
   {
     id: "cat10",
     name: "Animal Vocabulary (Doubutsu)",
     description: "Japanese words for common animals.",
+    group: "basics",
   },
   {
     id: "cat11",
     name: "Self-introduction",
     description: "Phrases used when introducing yourself.",
+    group: "conversation",
   },
   {
     id: "cat12",
     name: "Starting a New Job",
     description: "Phrases used when starting a new job.",
+    group: "work",
   },
   {
     id: "cat13",
     name: "Making a Purchase",
     description: "Phrases used when making a purchase.",
+    group: "shopping",
   },
   {
     id: "cat14",
     name: "Asking Business Hours",
     description: "Phrases used when asking about business hours.",
+    group: "shopping",
   },
   {
     id: "cat15",
     name: "Confirming a Destination",
     description: "Phrases used when confirming a destination.",
+    group: "travel",
   },
 ]
 
@@ -203,7 +230,7 @@ export const conversations: Conversation[] = [
     id: "conv19",
     category_id: "cat2",
     context: "At a restaurant",
-    content: "I don't eat meat.",
+    content: "I don't eat pig's meat.",
     timestamp: "2023-10-01T11:35:00Z",
   },
   {

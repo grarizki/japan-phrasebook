@@ -1,9 +1,10 @@
 import { useState, useMemo, useCallback, Suspense, lazy } from "react"
 import { motion } from "framer-motion"
-import { categories, conversations, translations } from "./data"
+import { MY_PHRASES_ID, categories, conversations, translations } from "./data"
 import { useFavorites } from "./hooks/useFavorites"
 import { useUserPhrases } from "./hooks/useUserPhrases"
 import { ConversationCard } from "./components/ConversationCard"
+import { CategorySheet } from "./components/CategorySheet"
 import type { UserPhrase } from "./schema"
 
 const AddPhraseForm = lazy(() =>
@@ -18,8 +19,6 @@ const EditPhraseModal = lazy(() =>
 )
 
 type Tab = "browse" | "add" | "favorites"
-
-const MY_PHRASES_ID = "my-phrases"
 
 function CategoryNav({
   selected,
@@ -153,6 +152,7 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState("cat1")
   const [editingPhrase, setEditingPhrase] = useState<UserPhrase | null>(null)
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [sheetOpen, setSheetOpen] = useState(false)
   const { isFavorite, toggle, loading: favLoading } = useFavorites()
   const {
     phrases: userPhrases,
@@ -167,6 +167,35 @@ export default function App() {
   const userCategoryNames = useMemo(() => {
     return [...new Set(userPhrases.map((p) => p.category_name))]
   }, [userPhrases])
+
+  const userSheetCategories = useMemo(() => {
+    const builtInNames = new Set(categories.map((c) => c.name))
+    const counts = new Map<string, number>()
+    userPhrases.forEach((p) => {
+      if (!builtInNames.has(p.category_name)) {
+        counts.set(p.category_name, (counts.get(p.category_name) ?? 0) + 1)
+      }
+    })
+    return [...counts.entries()].map(([name, count]) => ({ name, count }))
+  }, [userPhrases])
+
+  const currentCategory = useMemo(() => {
+    if (selectedCategory === MY_PHRASES_ID) {
+      return { label: "✨ My Phrases", count: userPhrases.length }
+    }
+    const cat = categories.find((c) => c.id === selectedCategory)
+    if (cat) {
+      return {
+        label: cat.name,
+        count: conversations.filter((c) => c.category_id === cat.id).length,
+      }
+    }
+    return {
+      label: selectedCategory,
+      count: userPhrases.filter((p) => p.category_name === selectedCategory)
+        .length,
+    }
+  }, [selectedCategory, userPhrases])
 
   const filtered = useMemo(() => {
     if (selectedCategory === MY_PHRASES_ID) {
@@ -255,12 +284,35 @@ export default function App() {
           </div>
 
           {tab === "browse" && (
-            <CategoryNav
-              selected={selectedCategory}
-              onSelect={setSelectedCategory}
-              hasMyPhrases={hasMyPhrases}
-              layoutId="category-pill-mobile"
-            />
+            <div className="px-4 pb-3">
+              <button
+                onClick={() => setSheetOpen(true)}
+                className="w-full flex items-center justify-between rounded-xl bg-brown-900/70 border border-brown-800/50 px-4 py-2.5"
+              >
+                <span className="text-sm font-medium text-brown-100">
+                  {currentCategory.label}
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="text-xs text-brown-500">
+                    {currentCategory.count} phrases
+                  </span>
+                  <span
+                    className={`text-brown-500 transition-transform duration-200 ${sheetOpen ? "rotate-180" : ""}`}
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="M5 7.5L10 12.5L15 7.5" />
+                    </svg>
+                  </span>
+                </span>
+              </button>
+            </div>
           )}
         </header>
 
@@ -372,6 +424,21 @@ export default function App() {
           ))}
         </div>
       </nav>
+
+      {/* Category Sheet (mobile) */}
+      <CategorySheet
+        open={sheetOpen}
+        selected={selectedCategory}
+        hasMyPhrases={hasMyPhrases}
+        userCategories={userSheetCategories}
+        myPhraseCount={userPhrases.length}
+        onSelect={(id) => {
+          setSelectedCategory(id)
+          setSheetOpen(false)
+          setExpandedId(null)
+        }}
+        onClose={() => setSheetOpen(false)}
+      />
 
       {/* Edit Modal */}
       {editingPhrase && (
