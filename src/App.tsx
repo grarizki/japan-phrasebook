@@ -255,11 +255,6 @@ export default function App() {
         </div>
       </nav>
 
-      {/* Desktop Clock — top-right, hidden on mobile */}
-      <div className="hidden lg:block fixed top-4 right-4 z-40">
-        <RealTimeClock />
-      </div>
-
       {/* Main area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile Header — hidden on desktop */}
@@ -310,14 +305,14 @@ export default function App() {
           )}
         </header>
 
-        {/* Desktop Category Bar — shown on desktop browse tab */}
-        {tab === "browse" && (
-          <div className="hidden lg:block border-b border-brown-900/50 bg-brown-950/60">
-            <div className="max-w-3xl mx-auto px-4 py-3">
+        {/* Desktop Top Bar — category trigger (browse) + clock, aligned in one row */}
+        <div className="hidden lg:block border-b border-brown-900/50 bg-brown-950/60">
+          <div className="max-w-3xl mx-auto px-4 py-3 flex items-center gap-3">
+            {tab === "browse" ? (
               <button
                 data-testid="category-trigger"
                 onClick={() => setSheetOpen(true)}
-                className="w-full flex items-center justify-between rounded-xl bg-brown-900/70 border border-brown-800/50 px-4 py-2.5"
+                className="flex-1 flex items-center justify-between rounded-xl bg-brown-900/70 border border-brown-800/50 px-4 py-2.5"
               >
                 <span className="text-sm font-medium text-brown-100">
                   {currentCategory.label}
@@ -342,9 +337,12 @@ export default function App() {
                   </span>
                 </span>
               </button>
-            </div>
+            ) : (
+              <div className="flex-1" />
+            )}
+            <RealTimeClock />
           </div>
-        )}
+        </div>
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto pb-20 lg:pb-8 pt-4 lg:pt-10">
