@@ -17,6 +17,9 @@ export interface Translation {
   conversation_id: string
   translation: string
   pronunciation: string
+  verified?: boolean
+  verified_by?: string
+  verified_at?: string
 }
 
 export interface UserPhrase {

@@ -55,13 +55,13 @@ export function CategorySheet({
 
   return (
     <div
-      className="lg:hidden fixed inset-0 z-[60] flex items-end justify-center"
+      className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-0 sm:p-4"
       onClick={onClose}
     >
       <div className="absolute inset-0 bg-black/60 animate-fade-in" />
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-lg rounded-t-2xl bg-brown-950 border-t border-x border-brown-800/50 p-5 max-h-[80vh] overflow-y-auto animate-slide-up"
+        className="relative w-full max-w-lg rounded-t-2xl sm:rounded-2xl bg-brown-950 border-t border-x sm:border border-brown-800/50 p-5 max-h-[80vh] overflow-y-auto animate-slide-up sm:animate-scale-in"
       >
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold text-brown-100">Categories</h2>

@@ -10,6 +10,7 @@ export function ConversationCard({
   expanded,
   onToggle,
   isUserPhrase,
+  verified,
   onEdit,
   onDelete,
 }: {
@@ -22,6 +23,7 @@ export function ConversationCard({
   expanded: boolean
   onToggle: () => void
   isUserPhrase?: boolean
+  verified?: boolean
   onEdit?: () => void
   onDelete?: () => void
 }) {
@@ -45,6 +47,11 @@ export function ConversationCard({
           {isUserPhrase && (
             <span className="shrink-0 rounded-full bg-amber-500/20 text-amber-400 text-[10px] font-medium px-2 py-0.5">
               My Phrase
+            </span>
+          )}
+          {verified && (
+            <span className="shrink-0 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-medium px-2 py-0.5">
+              ✓ 確認済み
             </span>
           )}
           <span
