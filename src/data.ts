@@ -2382,6 +2382,20 @@ export const conversations: Conversation[] = [
     content: "It hurts.",
     timestamp: "2023-10-03T02:30:00Z",
   },
+  {
+    id: "conv311",
+    category_id: "cat3",
+    context: "At a shop",
+    content: "Can I have a shopping bag?",
+    timestamp: "2023-10-03T03:00:00Z",
+  },
+  {
+    id: "conv312",
+    category_id: "cat3",
+    context: "At a shop",
+    content: "Can I try this?",
+    timestamp: "2023-10-03T03:05:00Z",
+  },
 ]
 
 export const translations: Translation[] = [
@@ -4284,6 +4298,18 @@ export const translations: Translation[] = [
     conversation_id: "conv310",
     translation: "痛いです。",
     pronunciation: "Itai desu.",
+    verified: false,
+  },
+  {
+    conversation_id: "conv311",
+    translation: "レジ袋ください。",
+    pronunciation: "Rejibukuro kudasai.",
+    verified: false,
+  },
+  {
+    conversation_id: "conv312",
+    translation: "試せますか？",
+    pronunciation: "Tamesemasu ka?",
     verified: false,
   },
 ]

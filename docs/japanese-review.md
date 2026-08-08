@@ -3,7 +3,7 @@
 Review each phrase: correct Japanese? natural? romaji matches?
 Tick the box once a **native speaker** confirms. Corrections go back into `src/data.ts`, then set `verified: true` + `verified_by` + `verified_at`.
 
-Total: **310 phrases** (1 verified)
+Total: **312 phrases** (1 verified)
 
 ---
 
@@ -35,7 +35,7 @@ Total: **310 phrases** (1 verified)
 - [ ] Do you have an English menu? — 英語のメニューはありますか？ — Eigo no menyuu wa arimasu ka?
 - [ ] Do you have any recommendations? — おすすめはありますか？ — Osusume wa arimasu ka?
 
-## Shop (10)
+## Shop (12)
 
 - [ ] Do you have this in a larger size? — これの大きいサイズはありますか？ — Kore no ookii saizu wa arimasu ka?
 - [ ] Can I try this on? — これを試着してもいいですか？ — Kore o shichaku shite mo ii desu ka?
@@ -47,6 +47,8 @@ Total: **310 phrases** (1 verified)
 - [ ] Can I get a tax refund? — 免税できますか？ — Menzei dekimasu ka?
 - [ ] Where is the fitting room? — 試着室はどこですか？ — Shichakushitsu wa doko desu ka?
 - [ ] Can I return this? — 返品できますか？ — Henpin dekimasu ka?
+- [ ] Can I have a shopping bag? — レジ袋ください。 — Rejibukuro kudasai.
+- [ ] Can I try this? — 試せますか？ — Tamesemasu ka?
 
 ## Transportation (11)
 
