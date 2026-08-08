@@ -1,19 +1,58 @@
-import { useState, useCallback } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useState, useMemo, useCallback, Suspense, lazy } from "react"
+import { motion } from "framer-motion"
 import { categories, conversations, translations } from "./data"
 import { useFavorites } from "./hooks/useFavorites"
+import { useUserPhrases } from "./hooks/useUserPhrases"
+import { ConversationCard } from "./components/ConversationCard"
+import type { UserPhrase } from "./schema"
 
-type Tab = "browse" | "favorites"
+const AddPhraseForm = lazy(() =>
+  import("./components/AddPhraseForm").then((m) => ({
+    default: m.AddPhraseForm,
+  })),
+)
+const EditPhraseModal = lazy(() =>
+  import("./components/EditPhraseModal").then((m) => ({
+    default: m.EditPhraseModal,
+  })),
+)
+
+type Tab = "browse" | "add" | "favorites"
+
+const MY_PHRASES_ID = "my-phrases"
 
 function CategoryNav({
   selected,
   onSelect,
+  hasMyPhrases,
+  layoutId = "category-pill",
 }: {
   selected: string
   onSelect: (id: string) => void
+  hasMyPhrases: boolean
+  layoutId?: string
 }) {
   return (
-    <div className="flex gap-2 overflow-x-auto px-4 pb-2 scrollbar-none">
+    <div className="flex gap-2 overflow-x-auto px-4 pt-2 pb-2 scrollbar-none md:flex-wrap md:overflow-visible md:justify-center md:px-0">
+      {hasMyPhrases && (
+        <button
+          onClick={() => onSelect(MY_PHRASES_ID)}
+          className={`relative shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+            selected === MY_PHRASES_ID
+              ? "text-brown-950"
+              : "text-amber-400 hover:text-amber-300"
+          }`}
+        >
+          {selected === MY_PHRASES_ID && (
+            <motion.span
+              layoutId={layoutId}
+              className="absolute inset-0 rounded-full bg-amber-400"
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            />
+          )}
+          <span className="relative z-10">✨ My Phrases</span>
+        </button>
+      )}
       {categories.map((cat) => (
         <button
           key={cat.id}
@@ -26,7 +65,7 @@ function CategoryNav({
         >
           {selected === cat.id && (
             <motion.span
-              layoutId="category-pill"
+              layoutId={layoutId}
               className="absolute inset-0 rounded-full bg-brown-400"
               transition={{ type: "spring", stiffness: 400, damping: 30 }}
             />
@@ -38,136 +77,23 @@ function CategoryNav({
   )
 }
 
-function ConversationCard({
-  conv,
-  translation,
-  isFavorite,
-  onToggle,
-}: {
-  conv: { id: string; content: string; context: string }
-  translation: { translation: string; pronunciation: string }
-  isFavorite: boolean
-  onToggle: () => void
-}) {
-  const [expanded, setExpanded] = useState(false)
-  const [copied, setCopied] = useState(false)
-
-  const handleCopy = useCallback(() => {
-    navigator.clipboard.writeText(translation.translation).then(() => {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 1500)
-    })
-  }, [translation.translation])
-
-  return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ type: "spring", stiffness: 300, damping: 25 }}
-      className="overflow-hidden rounded-2xl bg-brown-900/80 backdrop-blur-sm border border-brown-800/50"
-    >
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="w-full p-4 text-left"
-      >
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex-1 min-w-0">
-            <p className="text-brown-100 font-medium leading-snug">
-              {conv.content}
-            </p>
-            <p className="mt-1 text-xs text-brown-500">{conv.context}</p>
-          </div>
-          <motion.div
-            animate={{ rotate: expanded ? 180 : 0 }}
-            transition={{ duration: 0.2 }}
-            className="shrink-0 text-brown-500"
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M5 7.5L10 12.5L15 7.5" />
-            </svg>
-          </motion.div>
-        </div>
-      </button>
-
-      <AnimatePresence>
-        {expanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="overflow-hidden"
-          >
-            <div className="border-t border-brown-800/50 p-4 space-y-3">
-              <div>
-                <p className="text-brown-400 text-lg font-semibold leading-relaxed">
-                  {translation.translation}
-                </p>
-                <p className="mt-1 text-brown-300/70 text-sm italic">
-                  {translation.pronunciation}
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    onToggle()
-                  }}
-                  className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors bg-brown-800/60 hover:bg-brown-800"
-                >
-                  <motion.span
-                    animate={
-                      isFavorite
-                        ? { scale: [1, 1.3, 1] }
-                        : { scale: 1 }
-                    }
-                    transition={{ duration: 0.3 }}
-                  >
-                    {isFavorite ? "❤️" : "🤍"}
-                  </motion.span>
-                  <span className="text-brown-300">
-                    {isFavorite ? "Saved" : "Save"}
-                  </span>
-                </button>
-
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    handleCopy()
-                  }}
-                  className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors bg-brown-800/60 hover:bg-brown-800 text-brown-300"
-                >
-                  {copied ? "✓ Copied" : "Copy"}
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  )
-}
-
 function FavoritesView({
   isFavorite,
   onToggle,
+  userPhrases,
+  onEdit,
+  onDelete,
 }: {
   isFavorite: (id: string) => boolean
   onToggle: (id: string) => void
+  userPhrases: UserPhrase[]
+  onEdit: (phrase: UserPhrase) => void
+  onDelete: (id: string) => void
 }) {
   const favConvs = conversations.filter((c) => isFavorite(c.id))
+  const favUser = userPhrases.filter((p) => isFavorite(p.id))
 
-  if (favConvs.length === 0) {
+  if (favConvs.length === 0 && favUser.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-brown-500">
         <span className="text-4xl mb-3">♡</span>
@@ -180,22 +106,36 @@ function FavoritesView({
   }
 
   return (
-    <div className="space-y-3 px-4">
-      <AnimatePresence mode="popLayout">
-        {favConvs.map((conv) => {
-          const t = translations.find((t) => t.conversation_id === conv.id)
-          if (!t) return null
-          return (
-            <ConversationCard
-              key={conv.id}
-              conv={conv}
-              translation={t}
-              isFavorite={isFavorite(conv.id)}
-              onToggle={() => onToggle(conv.id)}
-            />
-          )
-        })}
-      </AnimatePresence>
+    <div className="space-y-3 px-4 lg:px-0 lg:grid lg:grid-cols-2 lg:items-start lg:gap-3 lg:space-y-0">
+      {favUser.map((p) => (
+        <ConversationCard
+          key={p.id}
+          content={p.content}
+          context={p.context}
+          translation={p.translation}
+          pronunciation={p.pronunciation}
+          isFavorite={isFavorite(p.id)}
+          onToggleFavorite={() => onToggle(p.id)}
+          isUserPhrase
+          onEdit={() => onEdit(p)}
+          onDelete={() => onDelete(p.id)}
+        />
+      ))}
+      {favConvs.map((conv) => {
+        const t = translations.find((t) => t.conversation_id === conv.id)
+        if (!t) return null
+        return (
+          <ConversationCard
+            key={conv.id}
+            content={conv.content}
+            context={conv.context}
+            translation={t.translation}
+            pronunciation={t.pronunciation}
+            isFavorite={isFavorite(conv.id)}
+            onToggleFavorite={() => onToggle(conv.id)}
+          />
+        )
+      })}
     </div>
   )
 }
@@ -203,71 +143,196 @@ function FavoritesView({
 export default function App() {
   const [tab, setTab] = useState<Tab>("browse")
   const [selectedCategory, setSelectedCategory] = useState("cat1")
-  const { isFavorite, toggle, loading } = useFavorites()
+  const [editingPhrase, setEditingPhrase] = useState<UserPhrase | null>(null)
+  const { isFavorite, toggle, loading: favLoading } = useFavorites()
+  const {
+    phrases: userPhrases,
+    add,
+    update,
+    remove,
+    loading: upLoading,
+  } = useUserPhrases()
 
-  const filtered = conversations.filter(
-    (c) => c.category_id === selectedCategory,
+  const hasMyPhrases = userPhrases.length > 0
+
+  const userCategoryNames = useMemo(() => {
+    return [...new Set(userPhrases.map((p) => p.category_name))]
+  }, [userPhrases])
+
+  const filtered = useMemo(() => {
+    if (selectedCategory === MY_PHRASES_ID) {
+      return userPhrases.map((p) => ({
+        type: "user" as const,
+        id: p.id,
+        content: p.content,
+        context: p.context,
+        translation: p.translation,
+        pronunciation: p.pronunciation,
+        phrase: p,
+      }))
+    }
+
+    const builtIn = conversations
+      .filter((c) => c.category_id === selectedCategory)
+      .map((c) => {
+        const t = translations.find((t) => t.conversation_id === c.id)
+        return {
+          type: "builtin" as const,
+          id: c.id,
+          content: c.content,
+          context: c.context,
+          translation: t?.translation ?? "",
+          pronunciation: t?.pronunciation ?? "",
+        }
+      })
+
+    return builtIn
+  }, [selectedCategory, userPhrases])
+
+  const handleDelete = useCallback(
+    (id: string) => {
+      remove(id)
+      if (isFavorite(id)) toggle(id)
+    },
+    [remove, isFavorite, toggle],
   )
 
+  const tabs = [
+    { id: "browse" as Tab, label: "Browse", icon: "📚" },
+    { id: "add" as Tab, label: "Add", icon: "➕" },
+    { id: "favorites" as Tab, label: "Saved", icon: "♡" },
+  ]
+
   return (
-    <div className="min-h-dvh bg-brown-950 flex flex-col">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-brown-950/90 backdrop-blur-md border-b border-brown-900/50">
-        <div className="px-4 pt-4 pb-2">
-          <h1 className="text-xl font-bold text-brown-100 tracking-tight">
-            日本語フレーズブック
-          </h1>
-          <p className="text-xs text-brown-500 mt-0.5">
-            Offline Japanese phrasebook
-          </p>
+    <div className="min-h-dvh bg-brown-950 flex flex-col lg:flex-row">
+      {/* Desktop Sidebar Nav — hidden on mobile */}
+      <nav className="hidden lg:flex lg:flex-col lg:w-44 lg:shrink-0 lg:border-r lg:border-brown-900/50 lg:bg-brown-950/95 lg:sticky lg:top-0 lg:h-dvh">
+        <div className="flex-1 flex flex-col gap-1 px-3 py-8">
+          {tabs.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setTab(item.id)}
+              className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                tab === item.id
+                  ? "text-brown-100 bg-brown-800/60"
+                  : "text-brown-500 hover:text-brown-300 hover:bg-brown-900/40"
+              }`}
+            >
+              <span className="text-base">{item.icon}</span>
+              <span>{item.label}</span>
+              {tab === item.id && (
+                <motion.div
+                  layoutId="sidebar-indicator"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-brown-400 rounded-full"
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                />
+              )}
+            </button>
+          ))}
         </div>
+      </nav>
 
+      {/* Main area */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Mobile Header — hidden on desktop */}
+        <header className="lg:hidden sticky top-0 z-50 bg-brown-950/90 backdrop-blur-md border-b border-brown-900/50">
+          <div className="px-4 pt-4 pb-2">
+            <h1 className="text-xl font-bold text-brown-100 tracking-tight">
+              日本語フレーズブック
+            </h1>
+            <p className="text-xs text-brown-500 mt-0.5">
+              Offline Japanese phrasebook
+            </p>
+          </div>
+
+          {tab === "browse" && (
+            <CategoryNav
+              selected={selectedCategory}
+              onSelect={setSelectedCategory}
+              hasMyPhrases={hasMyPhrases}
+              layoutId="category-pill-mobile"
+            />
+          )}
+        </header>
+
+        {/* Desktop Category Bar — shown on desktop browse tab */}
         {tab === "browse" && (
-          <CategoryNav
-            selected={selectedCategory}
-            onSelect={setSelectedCategory}
-          />
-        )}
-      </header>
-
-      {/* Content */}
-      <main className="flex-1 overflow-y-auto pb-20 pt-4">
-        {loading ? (
-          <div className="flex items-center justify-center py-20">
-            <div className="w-6 h-6 border-2 border-brown-400 border-t-transparent rounded-full animate-spin" />
+          <div className="hidden lg:block border-b border-brown-900/50 bg-brown-950/60">
+            <div className="max-w-3xl mx-auto">
+              <CategoryNav
+                selected={selectedCategory}
+                onSelect={setSelectedCategory}
+                hasMyPhrases={hasMyPhrases}
+                layoutId="category-pill-desktop"
+              />
+            </div>
           </div>
-        ) : tab === "browse" ? (
-          <div className="space-y-3 px-4">
-            <AnimatePresence mode="popLayout">
-              {filtered.map((conv) => {
-                const t = translations.find(
-                  (t) => t.conversation_id === conv.id,
-                )
-                if (!t) return null
-                return (
+        )}
+
+        {/* Content */}
+        <main className="flex-1 overflow-y-auto pb-20 lg:pb-8 pt-4 lg:pt-10">
+          <div className="max-w-3xl mx-auto">
+            {favLoading || upLoading ? (
+              <div className="flex items-center justify-center py-20">
+                <div className="w-6 h-6 border-2 border-brown-400 border-t-transparent rounded-full animate-spin" />
+              </div>
+            ) : tab === "browse" ? (
+              <div className="space-y-3 px-4 lg:px-0 lg:grid lg:grid-cols-2 lg:items-start lg:gap-3 lg:space-y-0">
+                {filtered.map((item) => (
                   <ConversationCard
-                    key={conv.id}
-                    conv={conv}
-                    translation={t}
-                    isFavorite={isFavorite(conv.id)}
-                    onToggle={() => toggle(conv.id)}
+                    key={item.id}
+                    content={item.content}
+                    context={item.context}
+                    translation={item.translation}
+                    pronunciation={item.pronunciation}
+                    isFavorite={isFavorite(item.id)}
+                    onToggleFavorite={() => toggle(item.id)}
+                    isUserPhrase={item.type === "user"}
+                    onEdit={
+                      item.type === "user"
+                        ? () => setEditingPhrase(item.phrase)
+                        : undefined
+                    }
+                    onDelete={
+                      item.type === "user"
+                        ? () => handleDelete(item.id)
+                        : undefined
+                    }
                   />
-                )
-              })}
-            </AnimatePresence>
+                ))}
+              </div>
+            ) : tab === "add" ? (
+              <div className="max-w-lg mx-auto">
+                <Suspense
+                  fallback={
+                    <div className="flex justify-center py-10">
+                      <div className="w-6 h-6 border-2 border-brown-400 border-t-transparent rounded-full animate-spin" />
+                    </div>
+                  }
+                >
+                  <AddPhraseForm
+                    userCategories={userCategoryNames}
+                    onSave={(phrase) => add(phrase)}
+                  />
+                </Suspense>
+              </div>
+            ) : (
+              <FavoritesView
+                isFavorite={isFavorite}
+                onToggle={toggle}
+                userPhrases={userPhrases}
+                onEdit={setEditingPhrase}
+                onDelete={handleDelete}
+              />
+            )}
           </div>
-        ) : (
-          <FavoritesView isFavorite={isFavorite} onToggle={toggle} />
-        )}
-      </main>
+        </main>
+      </div>
 
-      {/* Bottom Tab Bar */}
-      <nav className="fixed bottom-0 inset-x-0 bg-brown-950/95 backdrop-blur-md border-t border-brown-900/50 safe-area-pb">
+      {/* Mobile Bottom Tab Bar — hidden on desktop */}
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 bg-brown-950/95 backdrop-blur-md border-t border-brown-900/50 safe-area-pb">
         <div className="flex">
-          {([
-            { id: "browse" as Tab, label: "Browse", icon: "📚" },
-            { id: "favorites" as Tab, label: "Saved", icon: "♡" },
-          ]).map((item) => (
+          {tabs.map((item) => (
             <button
               key={item.id}
               onClick={() => setTab(item.id)}
@@ -290,6 +355,17 @@ export default function App() {
           ))}
         </div>
       </nav>
+
+      {/* Edit Modal */}
+      {editingPhrase && (
+        <Suspense fallback={null}>
+          <EditPhraseModal
+            phrase={editingPhrase}
+            onClose={() => setEditingPhrase(null)}
+            onSave={(id, updates) => update(id, updates)}
+          />
+        </Suspense>
+      )}
     </div>
   )
 }

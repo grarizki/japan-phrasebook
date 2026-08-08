@@ -1,31 +1,36 @@
-import { Schema } from "effect"
+export interface Category {
+  id: string
+  name: string
+  description: string
+}
 
-export const Category = Schema.Struct({
-  id: Schema.String,
-  name: Schema.String,
-  description: Schema.String,
-})
-export type Category = Schema.Schema.Type<typeof Category>
+export interface Conversation {
+  id: string
+  category_id: string
+  context: string
+  content: string
+  timestamp: string
+}
 
-export const Conversation = Schema.Struct({
-  id: Schema.String,
-  category_id: Schema.String,
-  context: Schema.String,
-  content: Schema.String,
-  timestamp: Schema.String,
-})
-export type Conversation = Schema.Schema.Type<typeof Conversation>
+export interface Translation {
+  conversation_id: string
+  translation: string
+  pronunciation: string
+}
 
-export const Translation = Schema.Struct({
-  conversation_id: Schema.String,
-  translation: Schema.String,
-  pronunciation: Schema.String,
-})
-export type Translation = Schema.Schema.Type<typeof Translation>
+export interface UserPhrase {
+  id: string
+  category_id: string
+  category_name: string
+  content: string
+  context: string
+  translation: string
+  pronunciation: string
+  created_at: string
+}
 
-export const AppData = Schema.Struct({
-  conversations: Schema.Array(Conversation),
-  categories: Schema.Array(Category),
-  translations: Schema.Array(Translation),
-})
-export type AppData = Schema.Schema.Type<typeof AppData>
+export interface AppData {
+  conversations: Conversation[]
+  categories: Category[]
+  translations: Translation[]
+}
