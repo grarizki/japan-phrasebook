@@ -352,35 +352,53 @@ export default function App() {
                 <div className="w-6 h-6 border-2 border-brown-400 border-t-transparent rounded-full animate-spin" />
               </div>
             ) : tab === "browse" ? (
-              <div className="space-y-3 px-4 lg:px-0 lg:grid lg:grid-cols-2 lg:items-start lg:gap-3 lg:space-y-0">
-                {filtered.map((item) => (
-                  <ConversationCard
-                    key={item.id}
-                    content={item.content}
-                    context={item.context}
-                    translation={item.translation}
-                    pronunciation={item.pronunciation}
-                    isFavorite={isFavorite(item.id)}
-                    onToggleFavorite={() => toggle(item.id)}
-                    expanded={expandedId === item.id}
-                    onToggle={() =>
-                      setExpandedId(expandedId === item.id ? null : item.id)
-                    }
-                    isUserPhrase={item.type === "user"}
-                    onEdit={
-                      item.type === "user"
-                        ? () => setEditingPhrase(item.phrase)
-                        : undefined
-                    }
-                    onDelete={
-                      item.type === "user"
-                        ? () => handleDelete(item.id)
-                        : undefined
-                    }
-                    verified={item.verified}
-                  />
-                ))}
-              </div>
+              <>
+                <div className="space-y-3 px-4 lg:px-0 lg:grid lg:grid-cols-2 lg:items-start lg:gap-3 lg:space-y-0">
+                  {filtered.map((item) => (
+                    <ConversationCard
+                      key={item.id}
+                      content={item.content}
+                      context={item.context}
+                      translation={item.translation}
+                      pronunciation={item.pronunciation}
+                      isFavorite={isFavorite(item.id)}
+                      onToggleFavorite={() => toggle(item.id)}
+                      expanded={expandedId === item.id}
+                      onToggle={() =>
+                        setExpandedId(expandedId === item.id ? null : item.id)
+                      }
+                      isUserPhrase={item.type === "user"}
+                      onEdit={
+                        item.type === "user"
+                          ? () => setEditingPhrase(item.phrase)
+                          : undefined
+                      }
+                      onDelete={
+                        item.type === "user"
+                          ? () => handleDelete(item.id)
+                          : undefined
+                      }
+                      verified={item.verified}
+                    />
+                  ))}
+                </div>
+                <a
+                  href="/japan-bakeries/"
+                  className="mx-4 lg:mx-0 mt-3 lg:mt-4 flex items-center justify-between gap-3 rounded-xl bg-brown-900/70 border border-brown-800/50 px-4 py-3.5 transition-colors hover:bg-brown-900/50"
+                >
+                  <span className="flex items-center gap-3">
+                    <span className="text-2xl">🍞</span>
+                    <span>
+                      <span className="block text-sm font-medium text-brown-100">
+                        Japan Bakeries
+                      </span>
+                      <span className="block text-xs text-brown-500">
+                        Discover bakeries across Japan →
+                      </span>
+                    </span>
+                  </span>
+                </a>
+              </>
             ) : tab === "add" ? (
               <div className="max-w-lg mx-auto">
                 <Suspense
