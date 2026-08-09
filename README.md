@@ -102,7 +102,7 @@ japan-phrasebook/
 ├── index.html             # HTML shell (lang="ja")
 ├── vite.config.ts         # Vite + React + Tailwind + PWA + code splitting
 ├── tsconfig.json          # TypeScript config
-├── LICENSE                # PolyForm Noncommercial 1.0.0
+├── LICENSE                # MIT License
 └── package.json
 ```
 
@@ -141,4 +141,4 @@ Heavy components (`AddPhraseForm`, `EditPhraseModal`) are **lazy loaded** via `R
 
 ## 📄 License
 
-[PolyForm Noncommercial 1.0.0](./LICENSE) — Personal, educational, and nonprofit use only. Commercial/corporate use requires permission from the copyright holder.
+[MIT](./LICENSE)

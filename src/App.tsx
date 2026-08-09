@@ -5,12 +5,14 @@ import {
   useEffect,
   Suspense,
   lazy,
+  Fragment,
 } from "react"
 import { motion } from "framer-motion"
 import { MY_PHRASES_ID, categories, conversations, translations } from "./data"
 import { useFavorites } from "./hooks/useFavorites"
 import { useUserPhrases } from "./hooks/useUserPhrases"
 import { ConversationCard } from "./components/ConversationCard"
+import { AdUnit } from "./components/AdUnit"
 import { CategorySheet } from "./components/CategorySheet"
 import { RealTimeClock } from "./components/RealTimeClock"
 import type { UserPhrase } from "./schema"
@@ -27,6 +29,13 @@ const EditPhraseModal = lazy(() =>
 )
 
 type Tab = "browse" | "add" | "favorites"
+
+// ponytail: placeholder slots — replace with real data-ad-slot IDs from AdSense dashboard
+const AD_SLOTS = {
+  browseFeed: "PENDING",
+  browseBottom: "PENDING",
+  favoritesFeed: "PENDING",
+}
 
 function FavoritesView({
   isFavorite,
@@ -60,42 +69,53 @@ function FavoritesView({
     )
   }
 
+  const favCards = [
+    ...favUser.map((p) => (
+      <ConversationCard
+        key={p.id}
+        content={p.content}
+        context={p.context}
+        translation={p.translation}
+        pronunciation={p.pronunciation}
+        isFavorite={isFavorite(p.id)}
+        onToggleFavorite={() => onToggle(p.id)}
+        expanded={expandedId === p.id}
+        onToggle={() => onToggleExpand(p.id)}
+        isUserPhrase
+        onEdit={() => onEdit(p)}
+        onDelete={() => onDelete(p.id)}
+      />
+    )),
+    ...favConvs.map((conv) => {
+      const t = translations.find((t) => t.conversation_id === conv.id)
+      if (!t) return null
+      return (
+        <ConversationCard
+          key={conv.id}
+          content={conv.content}
+          context={conv.context}
+          translation={t.translation}
+          pronunciation={t.pronunciation}
+          isFavorite={isFavorite(conv.id)}
+          onToggleFavorite={() => onToggle(conv.id)}
+          expanded={expandedId === conv.id}
+          onToggle={() => onToggleExpand(conv.id)}
+          verified={t.verified}
+        />
+      )
+    }),
+  ].filter((node) => node !== null)
+
   return (
     <div className="space-y-3 px-4 lg:px-0 lg:grid lg:grid-cols-2 lg:items-start lg:gap-3 lg:space-y-0">
-      {favUser.map((p) => (
-        <ConversationCard
-          key={p.id}
-          content={p.content}
-          context={p.context}
-          translation={p.translation}
-          pronunciation={p.pronunciation}
-          isFavorite={isFavorite(p.id)}
-          onToggleFavorite={() => onToggle(p.id)}
-          expanded={expandedId === p.id}
-          onToggle={() => onToggleExpand(p.id)}
-          isUserPhrase
-          onEdit={() => onEdit(p)}
-          onDelete={() => onDelete(p.id)}
-        />
+      {favCards.map((card, i) => (
+        <Fragment key={i}>
+          {card}
+          {i === 2 && (
+            <AdUnit slot={AD_SLOTS.favoritesFeed} className="lg:col-span-2" />
+          )}
+        </Fragment>
       ))}
-      {favConvs.map((conv) => {
-        const t = translations.find((t) => t.conversation_id === conv.id)
-        if (!t) return null
-        return (
-          <ConversationCard
-            key={conv.id}
-            content={conv.content}
-            context={conv.context}
-            translation={t.translation}
-            pronunciation={t.pronunciation}
-            isFavorite={isFavorite(conv.id)}
-            onToggleFavorite={() => onToggle(conv.id)}
-            expanded={expandedId === conv.id}
-            onToggle={() => onToggleExpand(conv.id)}
-            verified={t.verified}
-          />
-        )
-      })}
     </div>
   )
 }
@@ -353,33 +373,46 @@ export default function App() {
               </div>
             ) : tab === "browse" ? (
               <div className="space-y-3 px-4 lg:px-0 lg:grid lg:grid-cols-2 lg:items-start lg:gap-3 lg:space-y-0">
-                {filtered.map((item) => (
-                  <ConversationCard
-                    key={item.id}
-                    content={item.content}
-                    context={item.context}
-                    translation={item.translation}
-                    pronunciation={item.pronunciation}
-                    isFavorite={isFavorite(item.id)}
-                    onToggleFavorite={() => toggle(item.id)}
-                    expanded={expandedId === item.id}
-                    onToggle={() =>
-                      setExpandedId(expandedId === item.id ? null : item.id)
-                    }
-                    isUserPhrase={item.type === "user"}
-                    onEdit={
-                      item.type === "user"
-                        ? () => setEditingPhrase(item.phrase)
-                        : undefined
-                    }
-                    onDelete={
-                      item.type === "user"
-                        ? () => handleDelete(item.id)
-                        : undefined
-                    }
-                    verified={item.verified}
-                  />
+                {filtered.map((item, i) => (
+                  <Fragment key={item.id}>
+                    <ConversationCard
+                      content={item.content}
+                      context={item.context}
+                      translation={item.translation}
+                      pronunciation={item.pronunciation}
+                      isFavorite={isFavorite(item.id)}
+                      onToggleFavorite={() => toggle(item.id)}
+                      expanded={expandedId === item.id}
+                      onToggle={() =>
+                        setExpandedId(expandedId === item.id ? null : item.id)
+                      }
+                      isUserPhrase={item.type === "user"}
+                      onEdit={
+                        item.type === "user"
+                          ? () => setEditingPhrase(item.phrase)
+                          : undefined
+                      }
+                      onDelete={
+                        item.type === "user"
+                          ? () => handleDelete(item.id)
+                          : undefined
+                      }
+                      verified={item.verified}
+                    />
+                    {i === 3 && (
+                      <AdUnit
+                        slot={AD_SLOTS.browseFeed}
+                        className="lg:col-span-2"
+                      />
+                    )}
+                  </Fragment>
                 ))}
+                {filtered.length > 0 && (
+                  <AdUnit
+                    slot={AD_SLOTS.browseBottom}
+                    className="lg:col-span-2"
+                  />
+                )}
               </div>
             ) : tab === "add" ? (
               <div className="max-w-lg mx-auto">
@@ -411,6 +444,14 @@ export default function App() {
             )}
           </div>
         </main>
+        <footer className="px-4 pb-24 lg:pb-8 text-center">
+          <a
+            href="privacy.html"
+            className="text-xs text-brown-600 hover:text-brown-400"
+          >
+            Privacy
+          </a>
+        </footer>
       </div>
 
       {/* Mobile Bottom Tab Bar — hidden on desktop */}
