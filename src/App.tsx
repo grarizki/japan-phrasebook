@@ -26,7 +26,7 @@ const EditPhraseModal = lazy(() =>
   })),
 )
 
-type Tab = "browse" | "add" | "favorites"
+type Tab = "browse" | "add" | "favorites" | "about"
 
 function FavoritesView({
   isFavorite,
@@ -116,7 +116,8 @@ export default function App() {
     if (
       tabParam === "browse" ||
       tabParam === "add" ||
-      tabParam === "favorites"
+      tabParam === "favorites" ||
+      tabParam === "about"
     ) {
       setTab(tabParam)
     }
@@ -224,6 +225,7 @@ export default function App() {
     { id: "browse" as Tab, label: "Browse", icon: "📚" },
     { id: "add" as Tab, label: "Add", icon: "➕" },
     { id: "favorites" as Tab, label: "Saved", icon: "♡" },
+    { id: "about" as Tab, label: "About", icon: "ℹ️" },
   ]
 
   return (
@@ -413,6 +415,26 @@ export default function App() {
                     onSave={(phrase) => add(phrase)}
                   />
                 </Suspense>
+              </div>
+            ) : tab === "about" ? (
+              <div className="max-w-lg mx-auto px-4 lg:px-0">
+                <div className="rounded-xl bg-brown-900/70 border border-brown-800/50 px-5 py-6 space-y-3">
+                  <h2 className="text-lg font-bold text-brown-100">About</h2>
+                  <p className="text-sm text-brown-400 leading-relaxed">
+                    Hi, I'm grarizki. I built this offline phrasebook to help
+                    travelers navigate daily life in Japan — from konbini runs
+                    to restaurant orders.
+                  </p>
+                  <p className="text-sm text-brown-400 leading-relaxed">
+                    I also explore Japan's bakery scene. More of my work:
+                  </p>
+                  <a
+                    href="https://grarizki.github.io/"
+                    className="inline-block text-sm font-medium text-brown-100 underline decoration-brown-600 underline-offset-4 hover:text-brown-300"
+                  >
+                    grarizki.github.io →
+                  </a>
+                </div>
               </div>
             ) : (
               <FavoritesView
