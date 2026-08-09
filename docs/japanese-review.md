@@ -3,7 +3,7 @@
 Review each phrase: correct Japanese? natural? romaji matches?
 Tick the box once a **native speaker** confirms. Corrections go back into `src/data.ts`, then set `verified: true` + `verified_by` + `verified_at`.
 
-Total: **400 phrases** (1 verified)
+Total: **421 phrases** (1 verified)
 
 ---
 
@@ -50,7 +50,7 @@ Total: **400 phrases** (1 verified)
 - [ ] Can I have a shopping bag? — レジ袋ください。 — Rejibukuro kudasai.
 - [ ] Can I try this? — 試せますか？ — Tamesemasu ka?
 
-## Transportation (11)
+## Transportation (17)
 
 - [ ] Where is the ticket machine? — 切符売り場はどこですか？ — Kippu uriba wa doko desu ka?
 - [ ] Which train goes to Tokyo? — 東京行きの電車はどれですか？ — Toukyou-yuki no densha wa dore desu ka?
@@ -63,6 +63,12 @@ Total: **400 phrases** (1 verified)
 - [ ] How much will it cost? — いくらくらいかかりますか？ — Ikura kurai kakarimasu ka?
 - [ ] Does this bus go to the station? — このバスは駅に行きますか？ — Kono basu wa eki ni ikimasu ka?
 - [ ] I'm getting off here. — ここで降ります。 — Koko de orimasu.
+- [ ] Is this seat taken? — この席は空いていますか？ — Kono seki wa aite imasu ka?
+- [ ] Where is the Shinkansen platform? — 新幹線のホームはどこですか？ — Shinkansen no hōmu wa doko desu ka?
+- [ ] How do I transfer lines? — 乗り換えはどうすればいいですか？ — Norikae wa dō sureba ii desu ka?
+- [ ] What time is the last train? — 終電は何時ですか？ — Shūden wa nanji desu ka?
+- [ ] Does this train stop at Kyoto? — この電車は京都に止まりますか？ — Kono densha wa Kyōto ni tomarimasu ka?
+- [ ] I missed my train. — 電車に乗り遅れました。 — Densha ni noriokuremashita.
 
 ## Hotel (8)
 
@@ -75,7 +81,7 @@ Total: **400 phrases** (1 verified)
 - [ ] Is there Wi-Fi in the room? — 部屋にWi-Fiはありますか？ — Heya ni Wi-Fi wa arimasu ka?
 - [ ] Could I get another towel? — タオルをもう一枚いただけますか？ — Taoru o mou ichimai itadakemasu ka?
 
-## Airport (6)
+## Airport (12)
 
 - [ ] Where is the check-in counter? — チェックインカウンターはどこですか？ — Chekkuin kauntaa wa doko desu ka?
 - [ ] Where is the baggage claim? — 手荷物受取所はどこですか？ — Tenimotsu uketori-jo wa doko desu ka?
@@ -83,6 +89,12 @@ Total: **400 phrases** (1 verified)
 - [ ] How many bags can I check in? — 何個まで荷物を預けられますか？ — Nanko made nimotsu o azukeraremasu ka?
 - [ ] Where can I exchange money? — 両替所はどこですか？ — Ryougaejo wa doko desu ka?
 - [ ] Where can I buy a SIM card? — SIMカードはどこで買えますか？ — SIM kaado wa doko de kaemasu ka?
+- [ ] Where is immigration? — 入国審査はどこですか？ — Nyūkoku shinsa wa doko desu ka?
+- [ ] Where is customs? — 税関はどこですか？ — Zeikan wa doko desu ka?
+- [ ] Is my flight on time? — 私の便は定刻ですか？ — Watashi no bin wa teikoku desu ka?
+- [ ] What time is boarding? — 搭乗は何時ですか？ — Tōjō wa nanji desu ka?
+- [ ] Window seat, please. — 窓側の席をお願いします。 — Madogawa no seki o onegaishimasu.
+- [ ] Aisle seat, please. — 通路側の席をお願いします。 — Tsūrogawa no seki o onegaishimasu.
 
 ## Sightseeing (6)
 
@@ -469,4 +481,16 @@ Total: **400 phrases** (1 verified)
 - [ ] Is there a mosque nearby? — この近くにモスクはありますか？ — Kono chikaku ni mosuku wa arimasu ka?
 - [ ] Where is the prayer room? — 礼拝室はどこですか？ — Reihaishitsu wa doko desu ka?
 - [ ] Is there a prayer room? — 礼拝室はありますか？ — Reihaishitsu wa arimasu ka?
+
+## Luggage & Baggage (9)
+
+- [ ] Where can I store my luggage? — 荷物を預けられるところはどこですか？ — Nimotsu o azukerareru tokoro wa doko desu ka?
+- [ ] I'd like to send my luggage to the hotel. — ホテルに荷物を送りたいです。 — Hoteru ni nimotsu o okuritai desu.
+- [ ] My luggage didn't arrive. — 荷物が届いていません。 — Nimotsu ga todoite imasen.
+- [ ] I can't find my luggage. — 荷物が見つかりません。 — Nimotsu ga mitsukarimasen.
+- [ ] This is my luggage. — これは私の荷物です。 — Kore wa watashi no nimotsu desu.
+- [ ] Can I leave this here until tonight? — 今夜までここに置いてもいいですか？ — Kon'ya made koko ni oite mo ii desu ka?
+- [ ] Where are the coin lockers? — コインロッカーはどこですか？ — Koin rokkā wa doko desu ka?
+- [ ] Can I take this as carry-on? — これは機内持ち込みできますか？ — Kore wa kinai mochikomi dekimasu ka?
+- [ ] This bag doesn't fit in the locker. — この荷物はロッカーに入りません。 — Kono nimotsu wa rokkā ni hairimasen.
 

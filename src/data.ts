@@ -142,6 +142,13 @@ export const categories: Category[] = [
     description: "Halal dining, pork avoidance, prayer and mosque phrases.",
     group: "food",
   },
+  {
+    id: "cat22",
+    name: "Luggage & Baggage",
+    description:
+      "Storing, sending, and finding luggage at hotels, stations, and airports.",
+    group: "travel",
+  },
 ]
 
 export const conversations: Conversation[] = [
@@ -3032,6 +3039,165 @@ export const conversations: Conversation[] = [
     content: "Is there a prayer room?",
     timestamp: "2023-10-05T12:15:00Z",
   },
+
+  // =========================================================
+  // Airport
+  // =========================================================
+  {
+    id: "conv401",
+    category_id: "cat6",
+    context: "At an airport",
+    content: "Where is immigration?",
+    timestamp: "2023-10-06T09:00:00Z",
+  },
+  {
+    id: "conv402",
+    category_id: "cat6",
+    context: "At an airport",
+    content: "Where is customs?",
+    timestamp: "2023-10-06T09:05:00Z",
+  },
+  {
+    id: "conv403",
+    category_id: "cat6",
+    context: "At an airport",
+    content: "Is my flight on time?",
+    timestamp: "2023-10-06T09:10:00Z",
+  },
+  {
+    id: "conv404",
+    category_id: "cat6",
+    context: "At an airport",
+    content: "What time is boarding?",
+    timestamp: "2023-10-06T09:15:00Z",
+  },
+  {
+    id: "conv405",
+    category_id: "cat6",
+    context: "At an airport",
+    content: "Window seat, please.",
+    timestamp: "2023-10-06T09:20:00Z",
+  },
+  {
+    id: "conv406",
+    category_id: "cat6",
+    context: "At an airport",
+    content: "Aisle seat, please.",
+    timestamp: "2023-10-06T09:25:00Z",
+  },
+
+  // =========================================================
+  // Transportation
+  // =========================================================
+  {
+    id: "conv407",
+    category_id: "cat4",
+    context: "On the train",
+    content: "Is this seat taken?",
+    timestamp: "2023-10-06T10:00:00Z",
+  },
+  {
+    id: "conv408",
+    category_id: "cat4",
+    context: "At a train station",
+    content: "Where is the Shinkansen platform?",
+    timestamp: "2023-10-06T10:05:00Z",
+  },
+  {
+    id: "conv409",
+    category_id: "cat4",
+    context: "At a train station",
+    content: "How do I transfer lines?",
+    timestamp: "2023-10-06T10:10:00Z",
+  },
+  {
+    id: "conv410",
+    category_id: "cat4",
+    context: "At a train station",
+    content: "What time is the last train?",
+    timestamp: "2023-10-06T10:15:00Z",
+  },
+  {
+    id: "conv411",
+    category_id: "cat4",
+    context: "At a train station",
+    content: "Does this train stop at Kyoto?",
+    timestamp: "2023-10-06T10:20:00Z",
+  },
+  {
+    id: "conv412",
+    category_id: "cat4",
+    context: "At a train station",
+    content: "I missed my train.",
+    timestamp: "2023-10-06T10:25:00Z",
+  },
+
+  // =========================================================
+  // Luggage & Baggage
+  // =========================================================
+  {
+    id: "conv413",
+    category_id: "cat22",
+    context: "At a hotel / station",
+    content: "Where can I store my luggage?",
+    timestamp: "2023-10-06T11:00:00Z",
+  },
+  {
+    id: "conv414",
+    category_id: "cat22",
+    context: "Sending luggage",
+    content: "I'd like to send my luggage to the hotel.",
+    timestamp: "2023-10-06T11:05:00Z",
+  },
+  {
+    id: "conv415",
+    category_id: "cat22",
+    context: "Luggage problems",
+    content: "My luggage didn't arrive.",
+    timestamp: "2023-10-06T11:10:00Z",
+  },
+  {
+    id: "conv416",
+    category_id: "cat22",
+    context: "Luggage problems",
+    content: "I can't find my luggage.",
+    timestamp: "2023-10-06T11:15:00Z",
+  },
+  {
+    id: "conv417",
+    category_id: "cat22",
+    context: "At baggage claim",
+    content: "This is my luggage.",
+    timestamp: "2023-10-06T11:20:00Z",
+  },
+  {
+    id: "conv418",
+    category_id: "cat22",
+    context: "At a hotel / station",
+    content: "Can I leave this here until tonight?",
+    timestamp: "2023-10-06T11:25:00Z",
+  },
+  {
+    id: "conv419",
+    category_id: "cat22",
+    context: "At a train station",
+    content: "Where are the coin lockers?",
+    timestamp: "2023-10-06T11:30:00Z",
+  },
+  {
+    id: "conv420",
+    category_id: "cat22",
+    context: "At an airport",
+    content: "Can I take this as carry-on?",
+    timestamp: "2023-10-06T11:35:00Z",
+  },
+  {
+    id: "conv421",
+    category_id: "cat22",
+    context: "At a train station",
+    content: "This bag doesn't fit in the locker.",
+    timestamp: "2023-10-06T11:40:00Z",
+  },
 ]
 
 export const translations: Translation[] = [
@@ -5478,6 +5644,138 @@ export const translations: Translation[] = [
     conversation_id: "conv400",
     translation: "礼拝室はありますか？",
     pronunciation: "Reihaishitsu wa arimasu ka?",
+    verified: false,
+  },
+
+  // Airport
+  {
+    conversation_id: "conv401",
+    translation: "入国審査はどこですか？",
+    pronunciation: "Nyūkoku shinsa wa doko desu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv402",
+    translation: "税関はどこですか？",
+    pronunciation: "Zeikan wa doko desu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv403",
+    translation: "私の便は定刻ですか？",
+    pronunciation: "Watashi no bin wa teikoku desu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv404",
+    translation: "搭乗は何時ですか？",
+    pronunciation: "Tōjō wa nanji desu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv405",
+    translation: "窓側の席をお願いします。",
+    pronunciation: "Madogawa no seki o onegaishimasu.",
+    verified: false,
+  },
+  {
+    conversation_id: "conv406",
+    translation: "通路側の席をお願いします。",
+    pronunciation: "Tsūrogawa no seki o onegaishimasu.",
+    verified: false,
+  },
+
+  // Transportation
+  {
+    conversation_id: "conv407",
+    translation: "この席は空いていますか？",
+    pronunciation: "Kono seki wa aite imasu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv408",
+    translation: "新幹線のホームはどこですか？",
+    pronunciation: "Shinkansen no hōmu wa doko desu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv409",
+    translation: "乗り換えはどうすればいいですか？",
+    pronunciation: "Norikae wa dō sureba ii desu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv410",
+    translation: "終電は何時ですか？",
+    pronunciation: "Shūden wa nanji desu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv411",
+    translation: "この電車は京都に止まりますか？",
+    pronunciation: "Kono densha wa Kyōto ni tomarimasu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv412",
+    translation: "電車に乗り遅れました。",
+    pronunciation: "Densha ni noriokuremashita.",
+    verified: false,
+  },
+
+  // Luggage & Baggage
+  {
+    conversation_id: "conv413",
+    translation: "荷物を預けられるところはどこですか？",
+    pronunciation: "Nimotsu o azukerareru tokoro wa doko desu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv414",
+    translation: "ホテルに荷物を送りたいです。",
+    pronunciation: "Hoteru ni nimotsu o okuritai desu.",
+    verified: false,
+  },
+  {
+    conversation_id: "conv415",
+    translation: "荷物が届いていません。",
+    pronunciation: "Nimotsu ga todoite imasen.",
+    verified: false,
+  },
+  {
+    conversation_id: "conv416",
+    translation: "荷物が見つかりません。",
+    pronunciation: "Nimotsu ga mitsukarimasen.",
+    verified: false,
+  },
+  {
+    conversation_id: "conv417",
+    translation: "これは私の荷物です。",
+    pronunciation: "Kore wa watashi no nimotsu desu.",
+    verified: false,
+  },
+  {
+    conversation_id: "conv418",
+    translation: "今夜までここに置いてもいいですか？",
+    pronunciation: "Kon'ya made koko ni oite mo ii desu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv419",
+    translation: "コインロッカーはどこですか？",
+    pronunciation: "Koin rokkā wa doko desu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv420",
+    translation: "これは機内持ち込みできますか？",
+    pronunciation: "Kore wa kinai mochikomi dekimasu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv421",
+    translation: "この荷物はロッカーに入りません。",
+    pronunciation: "Kono nimotsu wa rokkā ni hairimasen.",
     verified: false,
   },
 ]
