@@ -149,6 +149,13 @@ export const categories: Category[] = [
       "Storing, sending, and finding luggage at hotels, stations, and airports.",
     group: "travel",
   },
+  {
+    id: "cat23",
+    name: "Outlet Shopping (Rinku Premium Outlets)",
+    description:
+      "Phrases for outlet shopping at Rinku Premium Outlets near Kansai International Airport. Includes brand directory and October sale information.",
+    group: "shopping",
+  },
 ]
 
 export const conversations: Conversation[] = [
@@ -5777,5 +5784,139 @@ export const translations: Translation[] = [
     translation: "この荷物はロッカーに入りません。",
     pronunciation: "Kono nimotsu wa rokkā ni hairimasen.",
     verified: false,
+  },
+
+  // =========================================================
+  // Outlet Shopping (Rinku Premium Outlets)
+  // =========================================================
+  {
+    conversation_id: "conv422",
+    translation: "アディダスの店はどこですか？",
+    pronunciation: "Adidasu no mise wa doko desu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv423",
+    translation: "ニューバランスのアウトレットはありますか？",
+    pronunciation: "Nyūbaransu no autoretto wa arimasu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv424",
+    translation: "アシックスの靴はどこで買えますか？",
+    pronunciation: "Ashikkusu no kutsu wa doko de kaemasu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv425",
+    translation: "ここで免税買い物はできますか？",
+    pronunciation: "Koko de menzei kaimono wa dekimasu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv426",
+    translation: "店は何時に閉まりますか？",
+    pronunciation: "Mise wa nanji ni shimarimasu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv427",
+    translation: "外国人観光客に割引はありますか？",
+    pronunciation: "Gaikokujin kankōkyaku ni waribiki wa arimasu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv428",
+    translation: "パスポートで免税買い物はできますか？",
+    pronunciation: "Pasupōto de menzei kaimono wa dekimasu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv429",
+    translation: "今セールはありますか？",
+    pronunciation: "Ima sēru wa arimasu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv430",
+    translation: "フードコートはどこですか？",
+    pronunciation: "Fūdo kōto wa doko desu ka?",
+    verified: false,
+  },
+  {
+    conversation_id: "conv431",
+    translation: "アウトレットの地図はありますか？",
+    pronunciation: "Autoretto no chizu wa arimasu ka?",
+    verified: false,
+  },
+  {
+    id: "conv422",
+    category_id: "cat23",
+    context: "At outlet mall information desk",
+    content: "Where is the Adidas store?",
+    timestamp: "2023-10-01T10:00:00Z",
+  },
+  {
+    id: "conv423",
+    category_id: "cat23",
+    context: "At outlet mall information desk",
+    content: "Is there a New Balance outlet here?",
+    timestamp: "2023-10-01T10:05:00Z",
+  },
+  {
+    id: "conv424",
+    category_id: "cat23",
+    context: "At outlet mall information desk",
+    content: "Where can I find Asics shoes?",
+    timestamp: "2023-10-01T10:10:00Z",
+  },
+  {
+    id: "conv425",
+    category_id: "cat23",
+    context: "At outlet mall",
+    content: "Is tax-free shopping available here?",
+    timestamp: "2023-10-01T10:15:00Z",
+  },
+  {
+    id: "conv426",
+    category_id: "cat23",
+    context: "At outlet mall",
+    content: "What time does the store close?",
+    timestamp: "2023-10-01T10:20:00Z",
+  },
+  {
+    id: "conv427",
+    category_id: "cat23",
+    context: "At outlet mall",
+    content: "Is there a discount for foreign tourists?",
+    timestamp: "2023-10-01T10:25:00Z",
+  },
+  {
+    id: "conv428",
+    category_id: "cat23",
+    context: "At outlet mall",
+    content: "Can I use my passport for tax-free shopping?",
+    timestamp: "2023-10-01T10:30:00Z",
+  },
+  {
+    id: "conv429",
+    category_id: "cat23",
+    context: "At outlet mall",
+    content: "Are there any sales happening right now?",
+    timestamp: "2023-10-01T10:35:00Z",
+  },
+  {
+    id: "conv430",
+    category_id: "cat23",
+    context: "At outlet mall",
+    content: "Where is the food court?",
+    timestamp: "2023-10-01T10:40:00Z",
+  },
+  {
+    id: "conv431",
+    category_id: "cat23",
+    context: "At outlet mall",
+    content: "Is there a map of the outlet?",
+    timestamp: "2023-10-01T10:45:00Z",
   },
 ]

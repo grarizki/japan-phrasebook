@@ -12,6 +12,7 @@ import { useFavorites } from "./hooks/useFavorites"
 import { useUserPhrases } from "./hooks/useUserPhrases"
 import { ConversationCard } from "./components/ConversationCard"
 import { CategorySheet } from "./components/CategorySheet"
+import { OutletSidebar } from "./components/OutletSidebar"
 import { RealTimeClock } from "./components/RealTimeClock"
 import type { UserPhrase } from "./schema"
 
@@ -355,6 +356,11 @@ export default function App() {
               </div>
             ) : tab === "browse" ? (
               <>
+                {selectedCategory === "cat23" && (
+                  <div className="px-4 lg:px-0 mb-4">
+                    <OutletSidebar />
+                  </div>
+                )}
                 <div className="space-y-3 px-4 lg:px-0 lg:grid lg:grid-cols-2 lg:items-start lg:gap-3 lg:space-y-0">
                   {filtered.map((item) => (
                     <ConversationCard
