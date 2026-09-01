@@ -156,6 +156,12 @@ export const categories: Category[] = [
       "Phrases for outlet shopping at Rinku Premium Outlets near Kansai International Airport. Includes brand directory and October sale information.",
     group: "shopping",
   },
+  {
+    id: "cat24",
+    name: "Earphone Shopping",
+    description: "Phrases for trying and buying earphones at electronics stores.",
+    group: "shopping",
+  },
 ]
 
 export const conversations: Conversation[] = [
