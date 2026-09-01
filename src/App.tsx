@@ -5,6 +5,7 @@ import {
   useEffect,
   Suspense,
   lazy,
+  useRef,
 } from "react"
 import { motion } from "framer-motion"
 import { MY_PHRASES_ID, categories, conversations, translations } from "./data"
@@ -101,12 +102,24 @@ function FavoritesView({
   )
 }
 
+function useDebounce<T>(value: T, delay: number): T {
+  const [debounced, setDebounced] = useState(value)
+  useEffect(() => {
+    const id = setTimeout(() => setDebounced(value), delay)
+    return () => clearTimeout(id)
+  }, [value, delay])
+  return debounced
+}
+
 export default function App() {
   const [tab, setTab] = useState<Tab>("browse")
   const [selectedCategory, setSelectedCategory] = useState("cat1")
   const [editingPhrase, setEditingPhrase] = useState<UserPhrase | null>(null)
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [sheetOpen, setSheetOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const debouncedQuery = useDebounce(searchQuery.trim().toLowerCase(), 200)
+  const searchRef = useRef<HTMLInputElement>(null)
 
   // Read category + tab from URL on mount (persists across refresh)
   useEffect(() => {
@@ -183,6 +196,65 @@ export default function App() {
   }, [selectedCategory, userPhrases])
 
   const filtered = useMemo(() => {
+    const matchesSearch = (
+      content: string,
+      translation: string,
+      pronunciation: string,
+    ) => {
+      if (!debouncedQuery) return true
+      return (
+        content.toLowerCase().includes(debouncedQuery) ||
+        translation.includes(debouncedQuery) ||
+        pronunciation.toLowerCase().includes(debouncedQuery)
+      )
+    }
+
+    if (debouncedQuery) {
+      // Global search across all categories when searching
+      const results: {
+        type: "builtin" | "user"
+        id: string
+        content: string
+        context: string
+        translation: string
+        pronunciation: string
+        verified?: boolean
+        phrase?: UserPhrase
+      }[] = []
+
+      conversations.forEach((c) => {
+        const t = translations.find((t) => t.conversation_id === c.id)
+        if (matchesSearch(c.content, t?.translation ?? "", t?.pronunciation ?? "")) {
+          results.push({
+            type: "builtin",
+            id: c.id,
+            content: c.content,
+            context: c.context,
+            translation: t?.translation ?? "",
+            pronunciation: t?.pronunciation ?? "",
+            verified: t?.verified,
+          })
+        }
+      })
+
+      userPhrases.forEach((p) => {
+        if (matchesSearch(p.content, p.translation, p.pronunciation)) {
+          results.push({
+            type: "user",
+            id: p.id,
+            content: p.content,
+            context: p.context,
+            translation: p.translation,
+            pronunciation: p.pronunciation,
+            verified: false,
+            phrase: p,
+          })
+        }
+      })
+
+      return results
+    }
+
     if (selectedCategory === MY_PHRASES_ID) {
       return userPhrases.map((p) => ({
         type: "user" as const,
@@ -212,7 +284,7 @@ export default function App() {
       })
 
     return builtIn
-  }, [selectedCategory, userPhrases])
+  }, [selectedCategory, userPhrases, debouncedQuery])
 
   const handleDelete = useCallback(
     (id: string) => {
@@ -275,18 +347,62 @@ export default function App() {
           </div>
 
           {tab === "browse" && (
-            <div className="px-4 pb-3">
+            <div className="px-4 pb-3 space-y-2">
+              <div className="relative">
+                <svg
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-brown-500"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <circle cx="8.5" cy="8.5" r="5.5" />
+                  <path d="M13 13l4 4" />
+                </svg>
+                <input
+                  ref={searchRef}
+                  type="text"
+                  placeholder="Search English or Japanese..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full rounded-xl bg-brown-900/70 border border-brown-800/50 pl-9 pr-9 py-2.5 text-sm text-brown-100 placeholder:text-brown-600 focus:outline-none focus:border-brown-600 transition-colors"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => {
+                      setSearchQuery("")
+                      searchRef.current?.focus()
+                    }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-brown-500 hover:text-brown-300 transition-colors"
+                  >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="M5 5l10 10M15 5L5 15" />
+                    </svg>
+                  </button>
+                )}
+              </div>
               <button
                 data-testid="category-trigger"
                 onClick={() => setSheetOpen(true)}
                 className="w-full flex items-center justify-between rounded-xl bg-brown-900/70 border border-brown-800/50 px-4 py-2.5"
               >
                 <span className="text-sm font-medium text-brown-100">
-                  {currentCategory.label}
+                  {debouncedQuery ? "All Categories" : currentCategory.label}
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="text-xs text-brown-500">
-                    {currentCategory.count} phrases
+                    {debouncedQuery
+                      ? `${filtered.length} results`
+                      : `${currentCategory.count} phrases`}
                   </span>
                   <span
                     className={`text-brown-500 transition-transform duration-200 ${sheetOpen ? "rotate-180" : ""}`}
@@ -308,38 +424,84 @@ export default function App() {
           )}
         </header>
 
-        {/* Desktop Top Bar — category trigger (browse) + clock, aligned in one row */}
+        {/* Desktop Top Bar — search + category trigger (browse) + clock, aligned in one row */}
         <div className="hidden lg:block border-b border-brown-900/50 bg-brown-950/60">
           <div className="max-w-3xl mx-auto px-4 py-3 flex items-center gap-3">
             {tab === "browse" ? (
-              <button
-                data-testid="category-trigger"
-                onClick={() => setSheetOpen(true)}
-                className="flex-1 flex items-center justify-between rounded-xl bg-brown-900/70 border border-brown-800/50 px-4 py-2.5"
-              >
-                <span className="text-sm font-medium text-brown-100">
-                  {currentCategory.label}
-                </span>
-                <span className="flex items-center gap-2">
-                  <span className="text-xs text-brown-500">
-                    {currentCategory.count} phrases
-                  </span>
-                  <span
-                    className={`text-brown-500 transition-transform duration-200 ${sheetOpen ? "rotate-180" : ""}`}
+              <>
+                <div className="relative flex-1">
+                  <svg
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-brown-500"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
                   >
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
+                    <circle cx="8.5" cy="8.5" r="5.5" />
+                    <path d="M13 13l4 4" />
+                  </svg>
+                  <input
+                    ref={searchRef}
+                    type="text"
+                    placeholder="Search English or Japanese..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full rounded-xl bg-brown-900/70 border border-brown-800/50 pl-9 pr-9 py-2.5 text-sm text-brown-100 placeholder:text-brown-600 focus:outline-none focus:border-brown-600 transition-colors"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => {
+                        setSearchQuery("")
+                        searchRef.current?.focus()
+                      }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-brown-500 hover:text-brown-300 transition-colors"
                     >
-                      <path d="M5 7.5L10 12.5L15 7.5" />
-                    </svg>
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path d="M5 5l10 10M15 5L5 15" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
+                <button
+                  data-testid="category-trigger"
+                  onClick={() => setSheetOpen(true)}
+                  className="flex items-center justify-between rounded-xl bg-brown-900/70 border border-brown-800/50 px-4 py-2.5"
+                >
+                  <span className="text-sm font-medium text-brown-100">
+                    {debouncedQuery ? "All" : currentCategory.label}
                   </span>
-                </span>
-              </button>
+                  <span className="flex items-center gap-2">
+                    <span className="text-xs text-brown-500">
+                      {debouncedQuery
+                        ? `${filtered.length}`
+                        : `${currentCategory.count}`}
+                    </span>
+                    <span
+                      className={`text-brown-500 transition-transform duration-200 ${sheetOpen ? "rotate-180" : ""}`}
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path d="M5 7.5L10 12.5L15 7.5" />
+                      </svg>
+                    </span>
+                  </span>
+                </button>
+              </>
             ) : (
               <div className="flex-1" />
             )}
@@ -377,8 +539,8 @@ export default function App() {
                       }
                       isUserPhrase={item.type === "user"}
                       onEdit={
-                        item.type === "user"
-                          ? () => setEditingPhrase(item.phrase)
+                        item.type === "user" && item.phrase
+                          ? () => setEditingPhrase(item.phrase!)
                           : undefined
                       }
                       onDelete={
