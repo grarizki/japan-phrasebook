@@ -32,7 +32,6 @@ export function CategorySheet({
   selected,
   hasMyPhrases,
   userCategories,
-  myPhraseCount,
   onSelect,
   onClose,
 }: {
