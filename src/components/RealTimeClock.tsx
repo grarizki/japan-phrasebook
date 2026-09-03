@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useExchangeRate } from "../hooks/useExchangeRate"
 
 function useNow(intervalMs = 1000) {
   const [now, setNow] = useState(() => new Date())
@@ -44,6 +45,7 @@ function CityTime({
 
 export function RealTimeClock() {
   const now = useNow()
+  const { rate, error } = useExchangeRate()
   return (
     <div className="flex items-center gap-3 rounded-xl bg-brown-900/70 border border-brown-800/50 px-3 py-2">
       <CityTime label="東京" flag="🇯🇵" timeZone="Asia/Tokyo" now={now} />
@@ -54,6 +56,19 @@ export function RealTimeClock() {
         timeZone="Asia/Jakarta"
         now={now}
       />
+      <div className="w-px h-6 bg-brown-800/60" />
+      <div className="leading-tight">
+        <p className="text-[9px] uppercase tracking-wide text-brown-500">
+          1 JPY
+        </p>
+        <p className="text-xs font-semibold text-brown-100 tabular-nums">
+          {error
+            ? "—"
+            : rate
+              ? `${rate.toLocaleString("id-ID", { maximumFractionDigits: 2 })} IDR`
+              : "…"}
+        </p>
+      </div>
     </div>
   )
 }
