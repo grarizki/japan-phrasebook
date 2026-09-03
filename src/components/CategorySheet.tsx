@@ -2,31 +2,27 @@ import {
   CATEGORY_GROUPS,
   MY_PHRASES_ID,
   categories,
-  conversations,
 } from "../data"
 
 function Row({
   label,
-  count,
   selected,
   onSelect,
 }: {
   label: string
-  count: number
   selected: boolean
   onSelect: () => void
 }) {
   return (
     <button
       onClick={onSelect}
-      className={`w-full flex items-center justify-between px-4 py-3 text-sm transition-colors ${
+      className={`w-full flex items-center px-4 py-3 text-sm transition-colors ${
         selected
           ? "text-brown-100 bg-brown-800/60"
           : "text-brown-300 hover:bg-brown-900/60"
       }`}
     >
       <span className="font-medium">{label}</span>
-      <span className="text-xs text-brown-500">{count}</span>
     </button>
   )
 }
@@ -44,14 +40,10 @@ export function CategorySheet({
   selected: string
   hasMyPhrases: boolean
   userCategories: { name: string; count: number }[]
-  myPhraseCount: number
   onSelect: (id: string) => void
   onClose: () => void
 }) {
   if (!open) return null
-
-  const countFor = (catId: string) =>
-    conversations.filter((c) => c.category_id === catId).length
 
   return (
     <div
@@ -80,7 +72,6 @@ export function CategorySheet({
             </p>
             <Row
               label="✨ My Phrases"
-              count={myPhraseCount}
               selected={selected === MY_PHRASES_ID}
               onSelect={() => onSelect(MY_PHRASES_ID)}
             />
@@ -100,7 +91,6 @@ export function CategorySheet({
                   <Row
                     key={cat.id}
                     label={cat.name}
-                    count={countFor(cat.id)}
                     selected={selected === cat.id}
                     onSelect={() => onSelect(cat.id)}
                   />
@@ -120,7 +110,6 @@ export function CategorySheet({
                 <Row
                   key={uc.name}
                   label={uc.name}
-                  count={uc.count}
                   selected={selected === uc.name}
                   onSelect={() => onSelect(uc.name)}
                 />

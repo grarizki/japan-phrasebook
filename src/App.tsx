@@ -654,7 +654,6 @@ export default function App() {
         selected={selectedCategory}
         hasMyPhrases={hasMyPhrases}
         userCategories={userSheetCategories}
-        myPhraseCount={userPhrases.length}
         onSelect={(id) => {
           setSelectedCategory(id)
           setSheetOpen(false)
