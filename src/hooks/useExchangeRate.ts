@@ -5,7 +5,12 @@ export function useExchangeRate(intervalMs = 60_000) {
   const [error, setError] = useState(false)
 
   const fetchRate = () => {
-    fetch("https://open.er-api.com/v6/latest/JPY")
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 8000)
+
+    fetch("https://open.er-api.com/v6/latest/JPY", {
+      signal: controller.signal,
+    })
       .then((r) => {
         if (!r.ok) throw new Error()
         return r.json()
@@ -17,6 +22,7 @@ export function useExchangeRate(intervalMs = 60_000) {
         }
       })
       .catch(() => setError(true))
+      .finally(() => clearTimeout(timeout))
   }
 
   useEffect(() => {
